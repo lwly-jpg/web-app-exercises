@@ -29,7 +29,7 @@ describe Application do
     end
   end
 
-  context "GET /" do
+  context "POST /" do
     it 'returns list of names sorted in alphabetical order' do
       response = post('/sort-names', names: 'Joe,Alice,Zoe,Julia,Kieran')
       expect(response.status).to eq(200)
