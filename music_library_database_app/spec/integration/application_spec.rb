@@ -20,10 +20,29 @@ describe Application do
     end
   end
 
+  context 'GET /albums/new' do
+    it 'returns HTML form to create new album' do
+      response = get('/albums/new')
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<form method="POST" action="/albums">')
+      expect(response.body).to include('<input type="text" name="title" />')
+      expect(response.body).to include('<input type="text" name="release_year" />')
+      expect(response.body).to include('<input type="text" name="artist_id" />')
+      expect(response.body).to include('<input type="submit">')
+    end
+  end
+
   context 'POST /albums' do
+    it 'rejects invalid parameters' do
+      response = post('/albums', invalid_title: 'Waterloo', invalid_thing: 123)
+
+      expect(response.status).to eq(400)
+    end
+    
     it 'creates a new album' do
       response = post('/albums', title: 'Voyage', release_year: '2022', artist_id: 2)
       expect(response.status).to eq(200)
+      expect(response.body).to include('<h1>Voyage added to albums</h1>')
       get_response = get('/albums')
       expect(get_response.body).to include('Title: Voyage')
       expect(get_response.body).to include('Released: 2022')
@@ -80,6 +99,8 @@ describe Application do
       expect(response.body).to include('Genre: Pop')
     end
   end
+
+
 end
 
 
