@@ -28,14 +28,13 @@ describe Application do
       expect(response.body).to include('<input type="text" name="title" />')
       expect(response.body).to include('<input type="text" name="release_year" />')
       expect(response.body).to include('<input type="text" name="artist_id" />')
-      expect(response.body).to include('<input type="submit">')
+      expect(response.body).to include('<input type="submit" />')
     end
   end
 
   context 'POST /albums' do
     it 'rejects invalid parameters' do
       response = post('/albums', invalid_title: 'Waterloo', invalid_thing: 123)
-
       expect(response.status).to eq(400)
     end
     
@@ -63,6 +62,12 @@ describe Application do
   end
 
   context 'POST /artists' do
+
+    it 'rejects invalid parameters' do
+      response = post('/artists', invalid_name: 'Taylor Swift', invalid_thing: 123)
+      expect(response.status).to eq(400)
+    end
+
     it 'creates a new artist' do
       response = post('/artists', name: 'Wild Nothing', genre: 'Indie')
       expect(response.status).to eq(200)
@@ -72,6 +77,17 @@ describe Application do
       expect(get_response.body).to include('<a href="/artists/6">More info</a>')
     end
   end
+
+  context 'GET /artists/new' do
+    it 'returns HTML form to create new artist' do
+      response = get('/artists/new')
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<form method="POST" action="/artists">')
+      expect(response.body).to include('<input type="text" name="name" />')
+      expect(response.body).to include('<input type="text" name="genre" />')
+    end
+  end
+
 
   context 'GET /albums/:id' do
     it 'returns album by id 2' do
