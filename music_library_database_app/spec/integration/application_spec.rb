@@ -15,6 +15,8 @@ describe Application do
       expect(response.body).to include('Released: 1988')
       expect(response.body).to include('Title: Waterloo')
       expect(response.body).to include('Released: 1974')
+      expect(response.body).to include('<a href="/albums/2">More info</a>')
+      expect(response.body).to include('<a href="/albums/3">More info</a>')
     end
   end
 
