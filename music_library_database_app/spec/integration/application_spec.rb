@@ -54,6 +54,14 @@ describe Application do
       expect(response.body).to include('Release year: 1988')
       expect(response.body).to include('Artist: Pixies')
     end
+
+    it 'returns album by id 3' do
+      response = get('/albums/3')
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<h1>Waterloo</h1>')
+      expect(response.body).to include('Release year: 1974')
+      expect(response.body).to include('Artist: ABBA')
+    end
   end
 end
 
