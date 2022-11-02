@@ -61,23 +61,6 @@ describe Application do
     end
   end
 
-  context 'POST /artists' do
-
-    it 'rejects invalid parameters' do
-      response = post('/artists', invalid_name: 'Taylor Swift', invalid_thing: 123)
-      expect(response.status).to eq(400)
-    end
-
-    it 'creates a new artist' do
-      response = post('/artists', name: 'Wild Nothing', genre: 'Indie')
-      expect(response.status).to eq(200)
-      get_response = get('/artists')
-      expect(get_response.body).to include('Artist: Wild Nothing')
-      expect(get_response.body).to include('Genre: Indie')
-      expect(get_response.body).to include('<a href="/artists/6">More info</a>')
-    end
-  end
-
   context 'GET /artists/new' do
     it 'returns HTML form to create new artist' do
       response = get('/artists/new')
@@ -113,6 +96,23 @@ describe Application do
       expect(response.status).to eq(200)
       expect(response.body).to include('<h1>ABBA</h1>')
       expect(response.body).to include('Genre: Pop')
+    end
+  end
+
+  context 'POST /artists' do
+
+    it 'rejects invalid parameters' do
+      response = post('/artists', invalid_name: 'Taylor Swift', invalid_thing: 123)
+      expect(response.status).to eq(400)
+    end
+
+    it 'creates a new artist' do
+      response = post('/artists', name: 'Wild Nothing', genre: 'Indie')
+      expect(response.status).to eq(200)
+      get_response = get('/artists')
+      expect(get_response.body).to include('Artist: Wild Nothing')
+      expect(get_response.body).to include('Genre: Indie')
+      expect(get_response.body).to include('<a href="/artists/6">More info</a>')
     end
   end
 
